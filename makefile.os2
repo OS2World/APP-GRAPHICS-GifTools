@@ -1,0 +1,53 @@
+# Created by IBM WorkFrame/2 MakeMake at 22:49:34 on 09/28/95
+#
+# This makefile should be run in the following directory:
+#   f:\c_dev\giftool
+#
+# The actions included in this makefile are:
+#   COMPILE::C Set ++ Compile
+#   LINK::Link
+
+.all: \
+  .\giftool.exe
+
+.SUFFIXES:
+
+.SUFFIXES: .c
+
+.c.obj:
+      @echo WF::COMPILE::C Set ++ Compile
+      icc.exe /Tl- /O /G4 /Gs /Gi /Oi /C %s
+
+.\giftool.exe: \
+    .\readGIF.obj \
+    .\main.obj \
+    .\writeGIF.obj \
+    {$(LIB)}giftool.def \
+    makefile.os2
+      @echo WF::LINK::Link
+      link386.exe @<<
+         /PM:VIO /F /PACKD: /E +
+        .\readGIF.obj +
+        .\main.obj +
+        .\writeGIF.obj
+        giftool.exe
+        
+        
+        giftool.def;
+<<
+
+.\readGIF.obj: \
+    f:\c_dev\giftool\readGIF.c \
+    {f:\c_dev\giftool;$(INCLUDE);}gif.h \
+    makefile.os2
+
+.\main.obj: \
+    f:\c_dev\giftool\main.c \
+    {f:\c_dev\giftool;$(INCLUDE);}gif.h \
+    makefile.os2
+
+.\writeGIF.obj: \
+    f:\c_dev\giftool\writeGIF.c \
+    {f:\c_dev\giftool;$(INCLUDE);}gif.h \
+    makefile.os2
+
